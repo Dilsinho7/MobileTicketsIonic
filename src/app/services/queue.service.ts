@@ -14,7 +14,7 @@ export class QueueService {
 
   public isExpedienteAberto(): boolean {
     const hora = new Date().getHours();
-    return hora >= 7 && hora < 18;
+    return hora >= 7 && hora < 17;
   }
 
   generateTicket(type: 'SP' | 'SE' | 'SG') {

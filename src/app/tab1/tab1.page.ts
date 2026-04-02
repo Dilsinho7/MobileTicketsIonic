@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { CommonModule } from '@angular/common'; // Importante para o *ngIf
+import { IonicModule } from '@ionic/angular'; // Importante para ion-header, ion-button, etc
+import { QueueService } from '../services/queue.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  standalone: true, // Garanta que esteja como true
+  imports: [IonicModule, CommonModule] // Adicione aqui
 })
 export class Tab1Page {
-  constructor() {}
+  ultimaSenhaGerada: string = '';
+
+  constructor(private queueService: QueueService) {}
+
+  gerarSenha(tipo: 'SP' | 'SE' | 'SG') {
+  const resultado = this.queueService.generateTicket(tipo);
+  if (resultado === 'FECHADO') {
+    alert('O sistema só emite senhas entre 07:00 e 17:00.');
+    this.ultimaSenhaGerada = '';
+  } else {
+    this.ultimaSenhaGerada = resultado;
+  }
+}
 }
